@@ -42,6 +42,8 @@ class TrumpRegressBar
   end
 
   def check
+    puts percent
+    puts (percent * 10) % 1
     if (percent * 10) % 1 == 0
       # i.e. if it's a multiple of 0.5 percent - 0.5, 1.0, 1.5...
       client.update(tweet(percent))
