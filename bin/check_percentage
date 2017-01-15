@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require_relative '../tweetbot'
+
+puts "Running at #{Time.now}"
+TrumpRegressBar.new.check

@@ -1,11 +1,16 @@
-gem 'twitter'
 require 'twitter'
-require "./client.rb"
+require 'dotenv'
+Dotenv.load
 
 class TrumpRegressBar
 
   def client
-    Client.new.client
+    Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV["CONSUMER_KEY"]
+      config.consumer_secret     = ENV["CONSUMER_SECRET"]
+      config.access_token        = ENV["ACCESS_TOKEN"]
+      config.access_token_secret = ENV["ACCESS_TOKEN_SECRET"]
+    end
   end
 
   def start
@@ -33,19 +38,19 @@ class TrumpRegressBar
   end
 
   def tweet(percent)
-    "The Trump presidency is #{percent.round(5).to_s}% over."
+    "The Trump presidency is #{percent.round(1).to_s}% over."
   end
 
   def check
-    # if (percent * 10) % 5 == 0
-      # it's a multiple of 0.5 percent - 0.5, 1.0, 1.5...
+    if (percent * 10) % 5 == 0
+      # i.e. if it's a multiple of 0.5 percent - 0.5, 1.0, 1.5...
       client.update(tweet(percent))
-    # end
+    end
   end
 
   # client.update(tweet(percent))
 
 end
 
-tweeter = TrumpRegressBar.new
-tweeter.check
+progress = TrumpRegressBar.new
+progress.check
