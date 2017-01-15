@@ -38,17 +38,17 @@ class TrumpRegressBar
   end
 
   def tweet(percent)
-    # have to fix so it doesn't miss one since it only runs every 10 minutes
-    # "The Trump presidency is #{percent.round(6).to_s}% over. [URL]"
-    "test."
+    "The Trump presidency is #{percent.round(1).to_s}% over. [URL]"
   end
 
   def check
     puts "Currently at #{percent}%."
-    # if (percent * 10) % 5 == 0 # 0.5, 1.0, 1.5, etc.
+    # if (percent * 10).round % 5 == 0 && client.user_timeline.first.text != tweet(percent)
       client.update(tweet(percent))
       puts "Tweeted '#{tweet(percent)}'"
     # end
   end
 
 end
+
+TrumpRegressBar.new.check
