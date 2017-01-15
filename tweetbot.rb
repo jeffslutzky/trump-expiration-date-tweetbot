@@ -40,7 +40,7 @@ class TrumpRegressBar
   def tweet(percent)
     # have to fix so it doesn't miss one since it only runs every 10 minutes
     # "The Trump presidency is #{percent.round(6).to_s}% over. [URL]"
-    "test"
+    "test."
   end
 
   def check
