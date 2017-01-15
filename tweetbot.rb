@@ -38,7 +38,7 @@ class TrumpRegressBar
   end
 
   def tweet(percent)
-    "The Trump presidency is #{percent.round(1).to_s}% over."
+    "The Trump presidency is #{percent.round(1).to_s}% over!"
   end
 
   def check
@@ -49,7 +49,5 @@ class TrumpRegressBar
       client.update(tweet(percent))
     # end
   end
-
-  # client.update(tweet(percent))
 
 end
