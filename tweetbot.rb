@@ -14,14 +14,16 @@ class TrumpRegressBar
   end
 
   def start
-    # Time.new(2017,1,20,12).to_i
-    Time.new(2015,1,19,23).to_i
+    # Time.new(2017, 1, 20, 17, 0, 0).to_i #UTC
+    # Time.new(2015,1,19,23).to_i
+    Time.new(2015,1,17,0,12,36,"-05:00").to_i
 
   end
 
   def finish
-    # Time.new(2021,1,20,12).to_i
-    Time.new(2019,1,19,23).to_i
+    # Time.new(2021, 1, 20, 17, 0, 0).to_i #UTC
+    # Time.new(2019,1,19,23).to_i
+    Time.new(2019,1,17,0,12,36,"-05:00").to_i
   end
 
   def total
@@ -40,15 +42,23 @@ class TrumpRegressBar
     elapsed/total.to_f * 100
   end
 
-  def tweet(percent)
-    "[testing] We're #{percent.round(1).to_s}% done with the T---p presidency. http://trumpexpirationdate.com"
+  def tweet_sentence(percent)
+    "[testing] We're #{percent.round(1).to_s}% done with the T---p presidency."
+  end
+
+  def url
+    "http://trumpexpirationdate.com"
+  end
+
+  def full_tweet
+    "#{tweet_sentence(percent)} #{url}"
   end
 
   def check
     puts "Currently at #{percent}%."
-    if (percent * 1000).to_i % 100 == 0 && client.user_timeline.first.text != tweet(percent)
-      client.update(tweet(percent))
-      puts "Tweeted '#{tweet(percent)}'"
+    if (percent * 1000).to_i % 100 == 0 && !client.user_timeline.first.text.include?(tweet_sentence(percent))
+      client.update(full_tweet)
+      puts "Tweeted '#{full_tweet}'"
     else
       puts "It's not time to tweet."
     end
