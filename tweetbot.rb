@@ -38,7 +38,6 @@ class TrumpRegressBar
 
   def percent
     elapsed/total.to_f * 100
-    4.4
   end
 
   def tweet(percent)
@@ -50,6 +49,8 @@ class TrumpRegressBar
     if (percent * 1000).to_i % 100 == 0 && client.user_timeline.first.text != tweet(percent)
       client.update(tweet(percent))
       puts "Tweeted '#{tweet(percent)}'"
+    else
+      puts "It's not time to tweet."
     end
   end
 
