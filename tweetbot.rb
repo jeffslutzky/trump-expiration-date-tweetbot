@@ -2,7 +2,7 @@ require 'twitter'
 require 'dotenv'
 Dotenv.load
 
-class TrumpRegressBar
+class TrumpPercentageChecker
 
   def client
     Twitter::REST::Client.new do |config|
@@ -14,15 +14,14 @@ class TrumpRegressBar
   end
 
   def start
-    # Time.new(2017, 1, 20, 17, 0, 0).to_i #UTC
-    # Time.new(2015,1,19,23).to_i
-    Time.new(2017,1,10,13,32,0,"-05:00").to_i # change year to 2017
+    # Time.new(2017, 1, 20, 12, 0, 0, "-05:00").to_i
+    # also change T---p to Trump
+    Time.new(2013, 1, 20, 12, 0, 0, "-05:00").to_i
   end
 
   def finish
-    # Time.new(2021, 1, 20, 17, 0, 0).to_i #UTC
-    # Time.new(2019,1,19,23).to_i
-    Time.new(2017,1,22,13,32,0,"-05:00").to_i # change year to 2021
+    # Time.new(2021, 1, 20, 12, 0, 0, "-05:00").to_i
+    Time.new(2017, 1, 20, 12, 0, 0, "-05:00").to_i
   end
 
   def total
@@ -42,7 +41,8 @@ class TrumpRegressBar
   end
 
   def tweet_sentence(percent)
-    "[testing] We're #{percent.round(1).to_s}% done with the T---p presidency."
+    # change T---p to Trump
+    "[testing] The T---p presidency is #{percent.round(1).to_s}% over."
   end
 
   def url
@@ -53,11 +53,22 @@ class TrumpRegressBar
     "#{tweet_sentence(percent)} #{url}"
   end
 
+  def correct_tweeting_interval?(percent)
+    # checks whether current percentage is an increment of 0.1%
+    (percent * 1000).to_i % 100 == 0
+  end
+
+  def unique_tweet?(tweet_sentence)
+    !client.user_timeline.first.text.include?(tweet_sentence(percent))
+  end
+
   def check
     puts "Currently at #{percent}%."
-    if (percent * 1000).to_i % 100 == 0 && !client.user_timeline.first.text.include?(tweet_sentence(percent))
+    if correct_tweeting_interval?(percent) && unique_tweet?(tweet_sentence(percent))
       client.update(full_tweet)
       puts "Tweeted '#{full_tweet}'"
+    elsif correct_tweeting_interval?(percent) && !unique_tweet?(tweet_sentence(percent))
+      puts "I'd tweet, but this percentage was already tweeted."
     else
       puts "It's not time to tweet."
     end

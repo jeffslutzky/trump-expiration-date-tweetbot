@@ -3,4 +3,4 @@
 require_relative '../tweetbot'
 
 puts "Running at #{Time.now}"
-TrumpRegressBar.new.check
+TrumpPercentageChecker.new.check
