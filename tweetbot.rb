@@ -16,14 +16,20 @@ class TrumpRegressBar
   def start
     # Time.new(2017, 1, 20, 17, 0, 0).to_i #UTC
     # Time.new(2015,1,19,23).to_i
-    Time.new(2015,1,17,0,12,36,"-05:00").to_i
+    start_time = Time.new(2015,1,17,0,59,0,"-05:00")
+    puts "start: #{start_time}"
+    return start_time.to_i
+    # Time.new(2015,1,16,12,50,0,"-05:00").to_i
 
   end
 
   def finish
     # Time.new(2021, 1, 20, 17, 0, 0).to_i #UTC
     # Time.new(2019,1,19,23).to_i
-    Time.new(2019,1,17,0,12,36,"-05:00").to_i
+    finish_time = Time.new(2019,1,17,0,59,0,"-05:00")
+    puts "finish: #{finish_time}"
+    return finish_time.to_i
+    # Time.new(2019,1,16,12,50,0,"-05:00").to_i
   end
 
   def total
