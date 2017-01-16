@@ -14,14 +14,14 @@ class TrumpRegressBar
   end
 
   def start
-    # Time.new(2009,1,20,12).to_i
-    Time.new(2015,1,19,11).to_i
+    # Time.new(2017,1,20,12).to_i
+    Time.new(2015,1,19,23).to_i
 
   end
 
   def finish
-    # Time.new(2017,1,20,12).to_i
-    Time.new(2019,1,19,11).to_i
+    # Time.new(2021,1,20,12).to_i
+    Time.new(2019,1,19,23).to_i
   end
 
   def total
