@@ -14,11 +14,14 @@ class TrumpRegressBar
   end
 
   def start
-    Time.new(2009,1,20,12).to_i
+    # Time.new(2009,1,20,12).to_i
+    Time.new(2015,1,20,12).to_i
+
   end
 
   def finish
-    Time.new(2017,1,20,12).to_i
+    # Time.new(2017,1,20,12).to_i
+    Time.new(2019,1,20,12).to_i
   end
 
   def total
@@ -35,20 +38,19 @@ class TrumpRegressBar
 
   def percent
     elapsed/total.to_f * 100
+    4.4
   end
 
   def tweet(percent)
-    "The Trump presidency is #{percent.round(1).to_s}% over. [URL]"
+    "[testing] We're #{percent.round(1).to_s}% done with the T---p presidency. http://trumpexpirationdate.com"
   end
 
   def check
     puts "Currently at #{percent}%."
-    # if (percent * 10).round % 5 == 0 && client.user_timeline.first.text != tweet(percent)
+    if (percent * 1000).to_i % 100 == 0 && client.user_timeline.first.text != tweet(percent)
       client.update(tweet(percent))
       puts "Tweeted '#{tweet(percent)}'"
-    # end
+    end
   end
 
 end
-
-TrumpRegressBar.new.check
