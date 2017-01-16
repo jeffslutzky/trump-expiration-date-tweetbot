@@ -55,11 +55,12 @@ class TrumpPercentageChecker
 
   def correct_tweeting_interval?(percent)
     # checks whether current percentage is an increment of 0.1%
-    (percent * 1000).to_i % 100 == 0
+    # (percent * 1000).to_i % 100 == 0
+    true
   end
 
   def unique_tweet?(tweet_sentence)
-    !client.user_timeline.first.text.include?(tweet_sentence(percent))
+    !client.user_timeline.first || !client.user_timeline.first.text.include?(tweet_sentence(percent))
   end
 
   def check
