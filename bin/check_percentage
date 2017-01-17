@@ -3,4 +3,10 @@
 require_relative '../tweetbot'
 
 puts "Running at #{Time.now}"
-TrumpPercentageChecker.new.check
+session = TrumpPercentageChecker.new
+
+if session.now >= session.start && session.now <= session.finish
+  session.check
+else
+  puts "Out of the time range."
+end

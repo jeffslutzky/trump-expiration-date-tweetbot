@@ -14,12 +14,15 @@ class TrumpPercentageChecker
   end
 
   def start
+    # line should be:
     # Time.new(2017, 1, 20, 12, 0, 0, "-05:00").to_i
     # also change T---p to Trump
+    # also restore correct_tweeting_interval code
     Time.new(2013, 1, 20, 12, 0, 0, "-05:00").to_i
   end
 
   def finish
+    # line should be:
     # Time.new(2021, 1, 20, 12, 0, 0, "-05:00").to_i
     Time.new(2017, 1, 20, 12, 0, 0, "-05:00").to_i
   end
@@ -64,14 +67,16 @@ class TrumpPercentageChecker
   end
 
   def check
-    puts "Currently at #{percent}%."
-    if correct_tweeting_interval?(percent) && unique_tweet?(tweet_sentence(percent))
-      client.update(full_tweet)
-      puts "Tweeted '#{full_tweet}'"
-    elsif correct_tweeting_interval?(percent) && !unique_tweet?(tweet_sentence(percent))
-      puts "I'd tweet, but this percentage was already tweeted."
-    else
-      puts "It's not time to tweet."
+    if now >= start && now <= finish
+      puts "Currently at #{percent}%."
+      if correct_tweeting_interval?(percent) && unique_tweet?(tweet_sentence(percent))
+        client.update(full_tweet)
+        puts "Tweeted '#{full_tweet}'"
+      elsif correct_tweeting_interval?(percent) && !unique_tweet?(tweet_sentence(percent))
+        puts "I'd tweet, but this percentage was already tweeted."
+      else
+        puts "It's not time to tweet."
+      end
     end
   end
 
