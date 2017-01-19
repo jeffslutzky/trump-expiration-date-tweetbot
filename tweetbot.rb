@@ -14,10 +14,10 @@ class TrumpPercentageChecker
   end
 
   def start
+    # change T---p to Trump
+    # restore correct_tweeting_interval code
     # line should be:
     # Time.new(2017, 1, 20, 12, 0, 0, "-05:00").to_i
-    # also change T---p to Trump
-    # also restore correct_tweeting_interval code
     Time.new(2013, 1, 20, 12, 0, 0, "-05:00").to_i
   end
 
@@ -45,7 +45,8 @@ class TrumpPercentageChecker
 
   def tweet_sentence(percent)
     # change T---p to Trump
-    "[testing] The T---p presidency is #{percent.round(1).to_s}% over."
+    # remove [testing]
+    "[testing] We're #{percent.round(1).to_s}% through with the T---p presidency."
   end
 
   def url
