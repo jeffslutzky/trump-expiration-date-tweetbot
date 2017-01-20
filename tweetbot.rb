@@ -38,7 +38,7 @@ class TrumpPercentageChecker
   end
 
   def tweet_sentence(percent)
-    "Trump presidency elapsed: #{percent.round(1).to_s}%."
+    "The Trump presidency is #{percent.round(1).to_s}% over."
   end
 
   def url
