@@ -14,17 +14,11 @@ class TrumpPercentageChecker
   end
 
   def start
-    # change T---p to Trump
-    # restore correct_tweeting_interval code
-    # line should be:
-    # Time.new(2017, 1, 20, 12, 0, 0, "-05:00").to_i
-    Time.new(2013, 1, 20, 12, 0, 0, "-05:00").to_i
+    Time.new(2017, 1, 20, 12, 0, 0, "-05:00").to_i
   end
 
   def finish
-    # line should be:
-    # Time.new(2021, 1, 20, 12, 0, 0, "-05:00").to_i
-    Time.new(2017, 1, 20, 12, 0, 0, "-05:00").to_i
+    Time.new(2021, 1, 20, 12, 0, 0, "-05:00").to_i
   end
 
   def total
@@ -44,9 +38,7 @@ class TrumpPercentageChecker
   end
 
   def tweet_sentence(percent)
-    # change T---p to Trump
-    # remove [testing]
-    "[testing] We're #{percent.round(1).to_s}% through with the T---p presidency."
+    "Trump presidency elapsed: #{percent.round(1).to_s}%."
   end
 
   def url
@@ -58,9 +50,7 @@ class TrumpPercentageChecker
   end
 
   def correct_tweeting_interval?(percent)
-    # checks whether current percentage is an increment of 0.1%
-    # (percent * 1000).to_i % 100 == 0
-    true
+    (percent * 1000).to_i % 100 == 0
   end
 
   def unique_tweet?(tweet_sentence)
