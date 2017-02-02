@@ -1,0 +1,6 @@
+describe TrumpPercentageChecker do
+
+
+
+
+end
