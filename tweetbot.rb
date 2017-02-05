@@ -1,5 +1,6 @@
 require 'twitter'
 require 'dotenv'
+require 'pry-byebug'
 Dotenv.load
 
 
@@ -17,17 +18,38 @@ class TwitterClient
 end
 
 
+class Tweeter
+
+  attr_reader :client, :percent, :tweet_composer, :interval_checker
+
+  def initialize(args)
+    @client = args[:client] ||= TwitterClient.new
+    @percent = args[:percent]
+    @tweet_composer = args[:tweet_composer] ||= TweetComposer.new(percent: @percent)
+    @interval_checker = args[:interval_checker] ||= IntervalChecker.new(percent: @percent)
+  end
+
+  def tweet_if_time
+    if interval_checker.correct_tweeting_interval?
+      tweet
+    else
+      puts "It's not time to tweet."
+    end
+  end
+
+  private
+
+    def tweet
+      client.update(tweet_composer.full_tweet)
+      puts "Tweeted '#{tweet_composer.full_tweet}'"
+    end
+
+end
 
 
 class PercentageCalculator
 
   attr_accessor :start_time, :end_time
-
-  # start_time
-  #   Time.new(2017, 1, 20, 12, 0, 0, "-05:00").to_i
-  #
-  # end_time
-  #   Time.new(2021, 1, 20, 12, 0, 0, "-05:00").to_i
 
   def initialize(args)
     @start_time = args[:start_time]
@@ -41,7 +63,7 @@ class PercentageCalculator
   private
 
     def total_time
-      end_time - start_time
+      end_time.to_i - start_time.to_i
     end
 
     def now
@@ -49,11 +71,28 @@ class PercentageCalculator
     end
 
     def elapsed_time
-      now - start_time
+      now - start_time.to_i
     end
 
 end
 
+
+
+
+class IntervalChecker
+
+  attr_reader :percent
+
+  def initialize(args)
+    @percent = args[:percent]
+  end
+
+  def correct_tweeting_interval?
+    percent.between?(0, 100.05) &&
+    (percent * 1000).to_i % 100 == 0
+  end
+
+end
 
 
 
@@ -78,41 +117,5 @@ class TweetComposer
     def url
       "http://trumpexpirationdate.com"
     end
-
-end
-
-
-
-
-class IntervalChecker
-
-  attr_reader :percent, :client
-
-  def initialize(args)
-    @percent = args[:percent]
-    @client = args[:client]
-  end
-
-  def correct_tweeting_interval?
-    (percent * 1000).to_i % 100 == 0
-  end
-
-  def unique_tweet?(tweet_sentence)
-    !client.user_timeline.first.text.include?(tweet_sentence(percent || !client.user_timeline.first))
-  end
-
-  def check
-    if now >= start_time && now <= end_time
-      puts "Currently at #{percent}%."
-      if correct_tweeting_interval?(percent) && unique_tweet?(tweet_sentence(percent))
-        client.update(full_tweet)
-        puts "Tweeted '#{full_tweet}'"
-      elsif correct_tweeting_interval?(percent) && !unique_tweet?(tweet_sentence(percent))
-        puts "I'd tweet, but this percentage was already tweeted."
-      else
-        puts "It's not time to tweet."
-      end
-    end
-  end
 
 end
