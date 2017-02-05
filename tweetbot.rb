@@ -6,8 +6,10 @@ Dotenv.load
 
 class TwitterClient
 
+  attr_accessor :client
+
   def initialize
-    Twitter::REST::Client.new do |config|
+    @client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV["CONSUMER_KEY"]
       config.consumer_secret     = ENV["CONSUMER_SECRET"]
       config.access_token        = ENV["ACCESS_TOKEN"]
@@ -23,7 +25,7 @@ class Tweeter
   attr_reader :client, :percent, :tweet_composer, :interval_checker
 
   def initialize(args)
-    @client = args[:client] ||= TwitterClient.new
+    @client = args[:client] ||= TwitterClient.new.client
     @percent = args[:percent]
     @tweet_composer = args[:tweet_composer] ||= TweetComposer.new(percent: @percent)
     @interval_checker = args[:interval_checker] ||= IntervalChecker.new(percent: @percent)
@@ -89,7 +91,7 @@ class IntervalChecker
 
   def correct_tweeting_interval?
     percent.between?(0, 100.05) &&
-    (percent * 10000).to_i % 1000 == 0
+    (percent * 1000).to_i % 100 == 0
   end
 
 end
