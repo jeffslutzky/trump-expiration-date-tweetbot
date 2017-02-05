@@ -89,7 +89,7 @@ class IntervalChecker
 
   def correct_tweeting_interval?
     percent.between?(0, 100.05) &&
-    (percent * 1000).to_i % 100 == 0
+    (percent * 10000).to_i % 1000 == 0
   end
 
 end
